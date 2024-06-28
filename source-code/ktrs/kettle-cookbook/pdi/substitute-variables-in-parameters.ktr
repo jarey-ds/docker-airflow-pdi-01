@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>substitute-variables-in-parameters</name>
+    <description/>
+    <extended_description/>
+    <trans_version/>
+    <directory>&#47;</directory>
+    <parameters>
+    </parameters>
+    <log>
+      <read/>
+      <write/>
+      <input/>
+      <output/>
+      <update/>
+      <rejected/>
+      <connection/>
+      <table/>
+      <step_performance_table/>
+      <use_batchid>Y</use_batchid>
+      <use_logfield>N</use_logfield>
+      <size_limit_lines/>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+  <modified_user>-</modified_user>
+  <modified_date>2010&#47;12&#47;21 10:38:36.234</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <order>
+  <hop> <from>Get job parameters</from><to>Substitute variable references and set variables</to><enabled>Y</enabled> </hop>  </order>
+  
+  <step>
+    <name>Get job parameters</name>
+    <type>getXMLData</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <namespaceaware>N</namespaceaware>
+    <ignorecomments>N</ignorecomments>
+    <readurl>N</readurl>
+    <validating>N</validating>
+    <usetoken>N</usetoken>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <rownum_field/>
+    <encoding>UTF-8</encoding>
+    <file>
+      <name>${Internal.Job.Filename.Directory}&#47;${Internal.Job.Filename.Name}</name>
+      <filemask/>
+      <file_required>N</file_required>
+    </file>
+    <fields>
+      <field>
+        <name>parameter_name</name>
+        <xpath>name</xpath>
+        <element_type>node</element_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <loopxpath>&#47;job&#47;parameters&#47;parameter</loopxpath>
+    <IsInFields>N</IsInFields>
+    <IsAFile>N</IsAFile>
+    <XmlField/>
+    <prunePath/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>108</xloc>
+      <yloc>51</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Substitute variable references and set variables</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+function replace_variables(text){
+    var re = &#47;\$\{([^\}]+)\}|%%([^%]+)%%&#47;g,
+        match, from = 0,
+        variable_name, variable_value, 
+        replaced_text = &quot;&quot;
+    ;
+
+    while ((match = re.exec(text)) !== null) {
+        variable_name  = match[1] ? match[1] : match[2];
+        variable_value = getVariable(variable_name, &quot;&quot;);
+        replaced_text += text.substring(from, match.index);
+        replaced_text += variable_value;
+        from = match.index + match[0].length;
+    }
+    replaced_text += text.substring(from, text.length);
+    return replaced_text;
+}
+
+setVariable(parameter_name, replace_variables(getVariable(parameter_name, &quot;&quot;)), &quot;s&quot;);
+</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>331</xloc>
+      <yloc>51</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step_error_handling>
+  </step_error_handling>
+   <slave-step-copy-partition-distribution>
+</slave-step-copy-partition-distribution>
+   <slave_transformation>N</slave_transformation>
+</transformation>

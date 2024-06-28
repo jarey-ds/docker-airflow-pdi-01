@@ -1,0 +1,83 @@
+/**
+*   This is default.css. This is part of kettle-cookbook.
+*   Kettle-cookbook is distributed on http://code.google.com/p/kettle-cookbook/
+*   
+*   default.css - a cascading stylesheet file that contains general markup
+*   
+*   Copyright (C) 2010 
+*   Roland Bouman Roland.Bouman@gmail.com - http://rpbouman.blogspot.com/
+*   
+*   This library is free software; you can redistribute it and/or modify it under 
+*   the terms of the GNU Lesser General Public License as published by the 
+*   Free Software Foundation; either version 2.1 of the License, or (at your option)
+*   any later version.
+
+*   This library is distributed in the hope that it will be useful, but WITHOUT ANY 
+*   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+*   PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+*   
+*   You should have received a copy of the GNU Lesser General Public License along 
+*   with this library; if not, write to 
+*   the Free Software Foundation, Inc., 
+*   59 Temple Place, Suite 330, 
+*   Boston, MA 02111-1307 USA
+*   
+*/
+
+* {
+    font-family: sans-serif;
+}
+
+body  {
+    background-image: url(../images/bg_banner.png);
+    background-repeat: no-repeat;
+}
+
+
+thread tr th {
+    text-align: center;    
+    font-weight:bold;
+}
+
+tbody tr th {
+    text-align: left;
+    font-weight:normal;
+}
+
+th {
+    background-color: orange;
+}
+
+body {
+    background-repeat: no-repeat;
+}
+
+ul {
+    margin-left:35px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding:0px;
+}
+
+code, pre {
+    font-family:monospace;
+}
+
+p, ul, ol, div, table {
+    font-size: 10pt;
+}
+
+a:link, a:visited  {
+    text-decoration: underline;
+    color: blue;
+}
+
+a[href]:hover {
+    text-decoration: underline;
+    color: red;
+}
+
+li {
+    white-space:nowrap;
+}
+
