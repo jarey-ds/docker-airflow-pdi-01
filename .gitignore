@@ -6,3 +6,4 @@ __pycache__
 .meta
 .env
 # jdbc.properties
+.idea/

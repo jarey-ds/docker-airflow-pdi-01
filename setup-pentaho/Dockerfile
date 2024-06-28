@@ -10,8 +10,8 @@ ARG PENTAHO_GID
 ARG PENTAHO_UID
 
 # Set required environment vars
-ENV PDI_RELEASE=9.1 \
-    PDI_VERSION=9.1.0.0-324 \
+ENV PDI_RELEASE=9.4 \
+    PDI_VERSION=9.4.0.0-343 \
     PENTAHO_JAVA_HOME=/usr/local/openjdk-8 \
     PENTAHO_HOME=/home/pentaho \
     PENTAHO_UID=${PENTAHO_UID} \
@@ -27,7 +27,7 @@ RUN mkdir -p ${PENTAHO_HOME}/templates ${PENTAHO_HOME}/scripts \
     && useradd -s /bin/bash -d ${PENTAHO_HOME} -r -g ${PENTAHO_GID} -u ${PENTAHO_UID} pentaho \
 # Download PDI and save in PENTAHO_HOME
     && /usr/bin/wget --progress=dot:giga \
-    https://sourceforge.net/projects/pentaho/files/Pentaho%20${PDI_RELEASE}/client-tools/pdi-ce-${PDI_VERSION}.zip \
+    https://privatefilesbucket-community-edition.s3.us-west-2.amazonaws.com/9.4.0.0-343/ce/client-tools/pdi-ce-9.4.0.0-343.zip \
     -P ${PENTAHO_HOME} \
 # Unzip PDI to /opt/ directory
     && /usr/bin/unzip -q ${PENTAHO_HOME}/pdi-ce-${PDI_VERSION}.zip -d /opt/ \
