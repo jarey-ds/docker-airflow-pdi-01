@@ -42,6 +42,9 @@ RUN mkdir -p ${PENTAHO_HOME}/templates ${PENTAHO_HOME}/scripts \
 COPY carte-*-config.xml ${PENTAHO_HOME}/templates/
 COPY docker-entrypoint.sh ${PENTAHO_HOME}/scripts/
 
+# Add additional drivers to lib
+COPY additional-drivers/* ${KETTLE_HOME}/lib
+
 # Make entrypoint as executable
 RUN chmod +x ${PENTAHO_HOME}/scripts/docker-entrypoint.sh
 
