@@ -8,4 +8,12 @@
     <read_only>N</read_only>
     <hides_hidden_files>N</hides_hidden_files>
   </repository>
+  <repository>
+    <id>KettleFileRepository</id>
+    <name>test-repo</name>
+    <description>.kjb or .ktr files</description>
+    <base_directory>/home/pentaho/repositories</base_directory>
+    <read_only>N</read_only>
+    <hides_hidden_files>N</hides_hidden_files>
+  </repository>
 </repositories>

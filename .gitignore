@@ -4,6 +4,5 @@ setup-airflow/plugins
 setup-pentaho/logs
 __pycache__
 .meta
-.env
 # jdbc.properties
 .idea/
