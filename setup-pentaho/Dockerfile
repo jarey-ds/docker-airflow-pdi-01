@@ -42,19 +42,11 @@ RUN mkdir -p ${PENTAHO_HOME}/templates ${PENTAHO_HOME}/scripts \
 COPY carte-*-config.xml ${PENTAHO_HOME}/templates/
 COPY docker-entrypoint.sh ${PENTAHO_HOME}/scripts/
 
+# Add additional drivers to lib (/opt/data-integration/lib)
+COPY additional-drivers/* ${KETTLE_HOME}/lib
+
 # Make entrypoint as executable
 RUN chmod +x ${PENTAHO_HOME}/scripts/docker-entrypoint.sh
-
-# # Install App dependent packages, if any
-# # Download MySQL JDBC Connector to PENTAHO_HOME
-# RUN /usr/bin/wget --progress=dot:giga \
-#     https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.49.zip -P ${PENTAHO_HOME} \
-# # Unzip MySQL jar file
-#     && /usr/bin/unzip -q ${PENTAHO_HOME}/mysql-connector-java-5.1.49.zip -d ${PENTAHO_HOME} \
-# # Copy unzipped jar file to /opt/data-integration
-#     && cp ${PENTAHO_HOME}/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar /opt/data-integration/lib \
-# # Clean up downloaded files
-#     && rm -R ${PENTAHO_HOME}/mysql-connector*
 
 USER pentaho
 

@@ -30,6 +30,8 @@ x-airflow-common:
   &airflow-common
   build: ./setup-airflow
   image: airflow
+  networks:
+    - pentaho-network
   environment:
     &airflow-common-env
     HOST_ENV: ${HOST_ENV}
@@ -58,8 +60,14 @@ x-airflow-common:
 
 
 services:
-  db:
+
+  # ---------------------------------------------------
+  # --- MariaDB
+  # ---------------------------------------------------
+  db-mariadb:
     image: mariadb:11.4.2
+    hostname: db-mariadb
+    container_name: db-mariadb
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: mydatabase
@@ -67,8 +75,49 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - data:/var/lib/mysql
+    networks:
+      - pentaho-network
+    expose:
+      - 3306
     ports:
       - "3306:3306"
+
+  # ---------------------------------------------------
+  # --- Mongo
+  # ---------------------------------------------------
+  db-mongo:
+      image: docker.io/mongo:7.0.14-jammy
+      restart: always
+      hostname: db-mongodb
+      container_name: db-mongodb
+      pull_policy: missing
+      networks:
+          - pentaho-network
+      deploy:
+        restart_policy:
+          condition: on-failure
+      volumes:
+        - mongo-data:/data/db
+      env_file:
+        - .env
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+      command:
+        - --auth
+        - --bind_ip_all
+        - --setParameter=enableLocalhostAuthBypass=true
+        - --timeStampFormat=iso8601-utc
+      healthcheck:
+        test: echo 'db.runCommand({find:"app_db_name.devUser"}).ok' | mongosh --authenticationDatabase admin --host localhost -u root -p example admin --quiet | grep -q 1
+        interval: 10s
+        timeout: 60s
+        retries: 3
+        start_period: 20s
+      expose:
+        - 27017
+      ports:
+        - "27017:27017"
 
 # Airflow-DB
   airflow-database:
@@ -80,6 +129,8 @@ services:
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
+    networks:
+      - pentaho-network
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 5s
@@ -92,6 +143,8 @@ services:
     container_name: airflow-broker
     ports:
       - 6379:6379
+    networks:
+      - pentaho-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -106,6 +159,8 @@ services:
     command: webserver
     ports:
       - ${AIRFLOW_HOST_PORT:-8080}:8080
+    networks:
+      - pentaho-network
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:${AIRFLOW_HOST_PORT:-8080}/health"]
       interval: 10s
@@ -119,18 +174,24 @@ services:
     container_name: airflow-scheduler
     command: scheduler
     restart: always
+    networks:
+      - pentaho-network
 
 # Airflow-worker
   airflow-worker:
     <<: *airflow-common
     command: celery worker
     restart: always
+    networks:
+      - pentaho-network
 
 # Airflow-DB-initialize
   airflow-init:
     <<: *airflow-common
     container_name: airflow-init
     command: version
+    networks:
+      - pentaho-network
     environment:
       <<: *airflow-common-env
       _AIRFLOW_DB_UPGRADE: 'true'
@@ -147,6 +208,8 @@ services:
       <<: *pdi-common-env
     ports:
       - ${CARTE_HOST_PORT:-8181}:8181
+    networks:
+      - pentaho-network
 
   # pdi-child:
   #   << : *pdi-common
@@ -167,3 +230,8 @@ volumes:
   postgres-db-volume:
   airflow-logs:
   data:
+  mongo-data:
+
+networks:
+  pentaho-network:
+    name: pentaho-network

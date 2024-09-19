@@ -419,8 +419,7 @@
    </info>
    <notepads>
       <notepad>
-         <note>This transformation gets executed for each supplier.&#xD;
-Please see the documentation article 'Metadata Injection Example' for a detailed explaination.</note>
+         <note>This transformation gets executed for each supplier.&#xD; Please see the documentation article 'Metadata Injection Example' for a detailed explaination.</note>
          <xloc>20</xloc>
          <yloc>20</yloc>
          <width>681</width>
@@ -462,8 +461,7 @@ Please see the documentation article 'Metadata Injection Example' for a detailed
          <drawshadow>Y</drawshadow>
       </notepad>
       <notepad>
-         <note>Modify (inject) and execute the&#xD;
-template transformation.</note>
+         <note>Modify (inject) and execute the&#xD;template transformation.</note>
          <xloc>580</xloc>
          <yloc>400</yloc>
          <width>235</width>
@@ -484,8 +482,7 @@ template transformation.</note>
          <drawshadow>Y</drawshadow>
       </notepad>
       <notepad>
-         <note>Metadata definitions&#xD;
-per supplier</note>
+         <note>Metadata definitions&#xD;per supplier</note>
          <xloc>400</xloc>
          <yloc>140</yloc>
          <width>156</width>
@@ -506,8 +503,7 @@ per supplier</note>
          <drawshadow>Y</drawshadow>
       </notepad>
       <notepad>
-         <note>Metadata definition of the&#xD;
-target file format.</note>
+         <note>Metadata definition of the&#xD;target file format.</note>
          <xloc>660</xloc>
          <yloc>220</yloc>
          <width>194</width>
@@ -528,10 +524,7 @@ target file format.</note>
          <drawshadow>Y</drawshadow>
       </notepad>
       <notepad>
-         <note>Process the row with the&#xD;
-supplier information&#xD;
-from the previous&#xD;
-transformation.</note>
+         <note>Process the row with the&#xD;supplier information&#xD;from the previous&#xD;transformation.</note>
          <xloc>20</xloc>
          <yloc>220</yloc>
          <width>189</width>
@@ -603,7 +596,7 @@ transformation.</note>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <trans_name/>
-      <filename>${Internal.Entry.Current.Directory}/03_process_supplier_file.ktr</filename>
+      <filename>./03_process_supplier_file.ktr</filename>
       <directory_path/>
       <source_step/>
       <source_output_fields/>
@@ -972,7 +965,7 @@ transformation.</note>
       <accept_field/>
       <accept_stepname/>
       <file>
-         <name>${Internal.Entry.Current.Directory}/../metadata/metadata_suppliers.xlsx</name>
+         <name>./metadata/metadata_suppliers.xlsx</name>
          <filemask/>
          <exclude_filemask/>
          <file_required>N</file_required>
@@ -1169,7 +1162,7 @@ transformation.</note>
       <accept_field/>
       <accept_stepname/>
       <file>
-         <name>${Internal.Entry.Current.Directory}/../metadata/metadata_target.xlsx</name>
+         <name>./metadata/metadata_target.xlsx</name>
          <filemask/>
          <exclude_filemask/>
          <file_required>N</file_required>

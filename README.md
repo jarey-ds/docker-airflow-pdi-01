@@ -16,7 +16,7 @@ Below is the high level architecture of the setup:
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 # Versions
-- Airflow 2.0
+- Airflow 2.9.2
 - PDI 9.1
 
  # Setup
@@ -73,10 +73,14 @@ To run as daemon, add -d option.
 Airflow Webserver
 
         localhost:8080/home
+        user:airflow
+        password:airflow
 
 Carte Webserver
 
         localhost:8181/kettle/status
+        user:cluster
+        password:cluster
 
 # How to trigger tasks from a DAG
 
