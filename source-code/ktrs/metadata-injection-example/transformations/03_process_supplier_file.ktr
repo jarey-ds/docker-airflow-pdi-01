@@ -640,7 +640,7 @@ setting the parameter per supplier. </note>
       <fileNameField/>
       <create_parent_folder>Y</create_parent_folder>
       <file>
-         <name>${Internal.Entry.Current.Directory}/../data/out/processed_data</name>
+         <name>/home/pentaho/repositories/metadata-injection-example/data/out/processed_data</name>
          <is_command>N</is_command>
          <servlet_output>N</servlet_output>
          <do_not_open_new_file_init>N</do_not_open_new_file_init>

@@ -596,11 +596,11 @@
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <trans_name/>
-      <filename>./03_process_supplier_file.ktr</filename>
+      <filename>/home/pentaho/repositories/metadata-injection-example/transformations/03_process_supplier_file.ktr</filename>
       <directory_path/>
       <source_step/>
       <source_output_fields/>
-      <target_file>${Internal.Entry.Current.Directory}/test.ktr</target_file>
+      <target_file>/home/pentaho/repositories/helloworld/helloworld-trans.ktr</target_file>
       <no_execution>N</no_execution>
       <stream_source_step/>
       <stream_target_step/>
@@ -965,7 +965,7 @@
       <accept_field/>
       <accept_stepname/>
       <file>
-         <name>./metadata/metadata_suppliers.xlsx</name>
+         <name>/home/pentaho/repositories/metadata-injection-example//metadata/metadata_suppliers.xlsx</name>
          <filemask/>
          <exclude_filemask/>
          <file_required>N</file_required>
@@ -1162,7 +1162,7 @@
       <accept_field/>
       <accept_stepname/>
       <file>
-         <name>./metadata/metadata_target.xlsx</name>
+         <name>/home/pentaho/repositories/metadata-injection-example/metadata/metadata_target.xlsx</name>
          <filemask/>
          <exclude_filemask/>
          <file_required>N</file_required>

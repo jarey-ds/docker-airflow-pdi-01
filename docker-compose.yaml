@@ -101,15 +101,15 @@ services:
       env_file:
         - .env
       environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example
+        MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
       command:
         - --auth
         - --bind_ip_all
         - --setParameter=enableLocalhostAuthBypass=true
         - --timeStampFormat=iso8601-utc
       healthcheck:
-        test: echo 'db.runCommand({find:"app_db_name.devUser"}).ok' | mongosh --authenticationDatabase admin --host localhost -u root -p example admin --quiet | grep -q 1
+        test: echo 'db.runCommand({find:"app_db_name.devUser"}).ok' | mongosh --authenticationDatabase admin --host localhost -u ${MONGO_ROOT_USERNAME} -p ${MONGO_ROOT_PASSWORD} admin --quiet | grep -q 1
         interval: 10s
         timeout: 60s
         retries: 3
