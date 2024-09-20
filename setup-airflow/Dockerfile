@@ -15,6 +15,3 @@ USER airflow
 RUN pip install --upgrade pip \
 # Install project specific packages
     && pip install 'apache-airflow[postgres]' 'acryl-datahub-airflow-plugin[plugin-v2]'
-
-
-
