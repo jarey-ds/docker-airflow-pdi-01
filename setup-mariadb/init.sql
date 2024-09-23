@@ -248,6 +248,18 @@ CREATE TABLE `vips` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+CREATE TABLE modified_cities
+(
+  city TINYTEXT
+, pop INT
+, state TINYTEXT
+, loc_x DOUBLE
+, loc_y DOUBLE
+, id TINYTEXT
+);
+CREATE INDEX idx_modified_cities_lookup ON nation.modified_cities(city, pop, state, loc_x, loc_y, id)
+
 --
 -- Dumping data for table `vips`
 --

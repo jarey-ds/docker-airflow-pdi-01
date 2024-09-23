@@ -99,6 +99,7 @@ services:
           condition: on-failure
       volumes:
         - mongo-data:/data/db
+        - ./setup-mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       env_file:
         - .env
       environment:
