@@ -258,7 +258,13 @@ CREATE TABLE modified_cities
 , loc_y DOUBLE
 , id TINYTEXT
 );
-CREATE INDEX idx_modified_cities_lookup ON nation.modified_cities(city, pop, state, loc_x, loc_y, id)
+CREATE INDEX idx_modified_cities_lookup ON nation.modified_cities(city, pop, state, loc_x, loc_y, id);
+
+CREATE TABLE `region_areas_modified` (
+  `region_name` varchar(100) NOT NULL,
+  `region_area` decimal(15,2) NOT NULL,
+  PRIMARY KEY (`region_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `vips`
