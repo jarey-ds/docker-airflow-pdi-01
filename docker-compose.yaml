@@ -17,7 +17,7 @@ x-pdi-common:
   volumes:
     # - /var/run/docker.sock:/var/run/docker.sock
     - ./source-code/ktrs:/home/pentaho/repositories
-    - ./setup-pentaho/logs:/opt/data-integration/logs
+    - ./setup-pentaho/logs:/opt/data-integration/logs:rw
     - ./setup-pentaho/repositories.xml:/opt/data-integration/.kettle/repositories.xml
     - ./setup-pentaho/kettle-properties/${HOST_ENV:-localhost}-kettle.properties:/opt/data-integration/.kettle/kettle.properties
     - ./setup-pentaho/simple-jndi:/opt/data-integration/simple-jndi
@@ -204,6 +204,7 @@ services:
   pdi-master:
     << : *pdi-common
     container_name: pdi-master
+    user: root
     environment:
       <<: *pdi-common-env
     ports:
