@@ -144,6 +144,15 @@ Transformation trigger:
 
 - ```PENTAHO_DI_JAVA_OPTIONS``` Having this option lets the user tweak the amount of memory PDI gets inside the container, to run a task. Depending on the host machine memory and average task complexity, this can be modified to avoid PDI container crash due to "GC Out of Memory" errors. If host machine has ample RAM and PDI container is crashing due to the default memory limits, we can increase it by setting ```PENTAHO_DI_JAVA_OPTIONS=-Xms2g -Xmx4g``` 2GB and 4GB being the lower and upper limits respectively.
 
+# Datahub
+
+Reference to docker-compose.yaml file: https://raw.githubusercontent.com/datahub-project/datahub/master/docker/quickstart/docker-compose-without-neo4j-m1.quickstart.yml
+
+Official docs for docker deployment: https://datahubproject.io/docs/quickstart
+
+
+
+
 # References & Credits
 - [What is Carte Server ?](https://wiki.pentaho.com/display/EAI/Carte+User+Documentation)
 
