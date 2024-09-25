@@ -163,7 +163,7 @@ services:
     container_name: airflow-webserver
     command: webserver
     ports:
-      - ${AIRFLOW_HOST_PORT:-9080}:8080
+      - ${AIRFLOW_HOST_PORT:-9080}:9080
     networks:
       - pentaho-network
     healthcheck:

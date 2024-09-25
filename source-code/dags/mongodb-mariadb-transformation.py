@@ -6,6 +6,8 @@ from airflow.utils.dates import days_ago
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.dummy import DummyOperator
 
+from datahub_airflow_plugin.entities import Dataset, Urn
+
 args = {
     "owner": "airflow",
     "start_date": days_ago(1),
@@ -29,7 +31,15 @@ with DAG(
 
     t1 = BashOperator(
         task_id='Trigger_Transformation',
-        bash_command='curl "${PDI_CONN_STR}/kettle/executeTrans/?rep=test-repo&trans=/metadata-injection-example/transformations/mongodb_to_mariadb"'
+        bash_command='curl "${PDI_CONN_STR}/kettle/executeTrans/?rep=test-repo&trans=/metadata-injection-example/transformations/mongodb_to_mariadb"',
+        inlets = [
+            Dataset(platform="mongodb", name="cinfodata.city"),
+            Urn(
+                "urn:li:dataset:(urn:li:dataPlatform:mongodb,cinfodata.city,PROD)"
+            ),
+            Urn("urn:li:dataJob:(urn:li:dataFlow:(airflow,mongo-to-mariadb,prod),t1)"),
+        ],
+        outlets = [Dataset("mariadb", "nation.public.modified_cities")],
     )
 
     stop = DummyOperator(
