@@ -898,7 +898,7 @@
            <schema_name/>
            </partitioning>
     <trans_name/>
-    <filename>${Internal.Transformation.Filename.Directory}&#47;compare-files.ktr</filename>
+    <filename>${Internal.Job.Filename.Directory}/kettle-cookbook/pdi/compare-files.ktr</filename>
     <directory_path/>
     <mappings>
       <input>
@@ -957,7 +957,7 @@
            <schema_name/>
            </partitioning>
     <trans_name/>
-    <filename>${Internal.Transformation.Filename.Directory}&#47;create-index.ktr</filename>
+    <filename>/home/pentaho/repositories/kettle-cookbook/pdi/create-index</filename>
     <directory_path/>
     <mappings>
       <input>
@@ -1006,7 +1006,7 @@
            <schema_name/>
            </partitioning>
     <trans_name/>
-    <filename>${Internal.Transformation.Filename.Directory}&#47;create-transform-script.ktr</filename>
+    <filename>${Internal.Job.Filename.Directory}/kettle-cookbook/pdi/create-transform-script.ktr</filename>
     <directory_path/>
     <mappings>
       <input>

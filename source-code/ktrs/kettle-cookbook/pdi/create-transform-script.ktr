@@ -1184,7 +1184,7 @@
       </field>
       <field>
         <name>transformation_dir</name>
-        <variable>${Internal.Transformation.Filename.Directory}</variable>
+        <variable>/home/pentaho/repositories/kettle-cookbook/xslt</variable>
         <type>String</type>
         <format/>
         <currency/>

@@ -79,7 +79,7 @@
     <rownum_field/>
     <encoding>UTF-8</encoding>
     <file>
-      <name>${Internal.Job.Filename.Directory}&#47;${Internal.Job.Filename.Name}</name>
+      <name>/home/pentaho/repositories/metadata-injection-example/transformations/${Internal.Job.Filename.Name}</name>
       <filemask/>
       <file_required>N</file_required>
     </file>

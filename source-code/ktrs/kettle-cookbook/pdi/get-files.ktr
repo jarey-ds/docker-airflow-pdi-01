@@ -812,7 +812,7 @@
            <schema_name/>
            </partitioning>
     <trans_name/>
-    <filename>${Internal.Transformation.Filename.Directory}&#47;get-directories.ktr</filename>
+    <filename>/home/pentaho/repositories/kettle-cookbook/pdi/get-directories.ktr</filename>
     <directory_path/>
     <mappings>
       <input>

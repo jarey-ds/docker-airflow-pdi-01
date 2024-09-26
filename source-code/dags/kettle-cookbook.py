@@ -28,8 +28,8 @@ with DAG(
     )
 
     t1 = BashOperator(
-        task_id='Trigger_Transformation',
-        bash_command='curl "${PDI_CONN_STR}/kettle/executeTrans/?rep=test-repo&trans=/kettle-cookbook/pdi/document-folder"'
+        task_id='Trigger_Document_Job',
+        bash_command='curl "${PDI_CONN_STR}/kettle/executeJob/?rep=test-repo&job=/kettle-cookbook/pdi/document-folder&INPUT_DIR=/home/pentaho/repositories/metadata-injection-example/transformations&OUTPUT_DIR=/home/pentaho/repositories/metadata-injection-example/data/out"'
     )
 
     stop = DummyOperator(

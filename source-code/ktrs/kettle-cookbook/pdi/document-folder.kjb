@@ -79,7 +79,7 @@ These static resources are referenced by &lt;script&gt;, &lt;link&gt; and &lt;im
       <create_destination_folder>Y</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${Internal.Job.Filename.Directory}&#47;..&#47;template</source_filefolder>
+          <source_filefolder>/home/pentaho/repositories/kettle-cookbook/template</source_filefolder>
           <destination_filefolder>${OUTPUT_DIR}</destination_filefolder>
           <wildcard>.+</wildcard>
         </field>
@@ -96,7 +96,7 @@ These static resources are referenced by &lt;script&gt;, &lt;link&gt; and &lt;im
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;process-files.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}/kettle-cookbook/pdi/process-files</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -128,7 +128,7 @@ These static resources are referenced by &lt;script&gt;, &lt;link&gt; and &lt;im
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;create-output-subdir.kjb</filename>
+      <filename>${Internal.Job.Filename.Directory}/kettle-cookbook/pdi/create-output-subdir</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>Y</params_from_previous>
@@ -268,7 +268,7 @@ These static resources are referenced by &lt;script&gt;, &lt;link&gt; and &lt;im
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;substitute-variables-in-parameters.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}/kettle-cookbook/pdi/substitute-variables-in-parameters</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
