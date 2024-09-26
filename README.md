@@ -1,14 +1,18 @@
 # Description
 
-Step by step approach to easily dockerize Airflow and Pentaho Data Integration **IN SEPARATE CONTAINERS**.
+Step by step approach to easily dockerize Airflow, Pentaho Data Integration and Datahub.
 Below is the high level architecture of the setup:
 - Airflow:
     - Orchestrator container
     - Sends transformation/job metadata as task to Pentaho container
+    - Process metadata information on DAGs and sends is to Datahub to record datasets, datasources, processes and corresponding lineage. 
 
 - Pentaho:
     - Container receives transformation/job details as task to be done
     - Performs (runs) the actual task (transformation/job)
+
+- Datahub
+    - Container receives metadata information that gets stored as Datasets, Processes or Data-sources taking into consideration its relationship to show corresponding lineage. 
 
 
 # Pre-requisites
@@ -16,8 +20,9 @@ Below is the high level architecture of the setup:
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 # Versions
-- Airflow 2.9.2
-- PDI 9.1
+- Airflow 2.10.2
+- PDI 9.4.0.0-343
+- Datahub v0.14.0.2
 
  # Setup
 Change directory to the project folder before performing below steps.
@@ -39,7 +44,7 @@ This is required for the containers to have same access privileges as that of th
     - AIRFLOW_ADMIN_EMAIL --> Required if new user to be created
     - PENTAHO_DI_JAVA_OPTIONS --> Allocate JVM memory to PDI container, based on host machine RAM. Increase if container crashes due to GC Out of memory. Ex: for Min. 1G and Max 4G, set this to "-Xms1g -Xmx4g"
     - CARTE_HOST_PORT --> Default: 8181
-    - AIRFLOW_HOST_PORT --> Default: 8080
+    - AIRFLOW_HOST_PORT --> Default: 9080
 
  - Create below folders for the container volumes to bind
 
@@ -53,36 +58,67 @@ Since the DAGs/PDI source code files might undergo frequent updates, they are no
     - Default folder for DAGs on host is ./source-code/dags
     - Replace the above default folder in the docker compose file, with the desired folder location on host.
     - Place all the DAG files in the above host dags folder.
+    - Default content of the connections table, after Airflow schema has been initialised is populated by using the script: ./setup-airflow/datahub-connection-row.sql, executed co-dependencies between init containers. 
 
   - Pentaho:
     - Default folder for ktr/kjb files on host is ./source-code/ktrs
+      - ./source-code/ktrs/metadata-injection-example hosts the main 3 use-cases for tests.
+      - ./ource-code/ktrs/kettle-cookbook hosts a kettle job that is able to generate auto documentation about the provided args pointing to desired Kettle jobs/transformations. 
     - Replace the above default folder in the docker compose file, with the desired folder location on host.
     - Place all the PDI files in the above host ktrs folder.
     - Update repositories.xml file accordingly, to make them visible to Carte.
 
+  - MongoDB:
+    - Init script in order to initialise the database with a given database, collection and data on such collection, meant for tests
+    is in ./setup-mongodb/mongo-init.js
+    
+  - MariaDB:
+    -  Init script in order to initialise the database with a given database, tables and data on such tables, meant for tests
+    is in ./setup-mariadb/init.sql
+
 ### Build & Deploy
 Below command will build (if first time) and start all the services.
 
-        docker-compose up
-To run as daemon, add -d option.
+        docker compose up -d
 
 # Web UI
 - If not localhost, replace with server endpoint Url
 - If not below default ports, replace with the ones used during CARTE_HOST_PORT & AIRFLOW_HOST_PORT setup.
 
-Airflow Webserver
+# Airflow Webserver
 
-        localhost:8080/home
+        http://localhost:9080/home
         user:airflow
         password:airflow
 
-Carte Webserver
+# Carte Webserver
 
-        localhost:8181/kettle/status
+        http://localhost:8181/kettle/status
         user:cluster
         password:cluster
 
-# How to trigger tasks from a DAG
+# Datahub
+
+        http://localhost:9002
+        user: datahub
+        password: datahub
+
+# Provided DAGs as invokers of PDI test transformations (use-cases)
+
+![img.png](doc-images/home-dags.png)
+
+- mariadb-to-files (source-code/dags/mariadb-files-transformation.py): calls the metadata-injection-example/transformations/mariadb_to_file.ktr transformation and logs to Datahub.
+- mariadb-to-mariadb (source-code/dags/mariadb-mariadb-transformation.py): calls the metadata-injection-example/transformations/mariadb_to_file.ktr transformation and logs to Datahub.
+- mongodb-to-mariadb (source-code/dags/mongodb-mariadb-transformation.py): calls the metadata-injection-example/transformations/mariadb_to_file.ktr transformation and logs to Datahub.
+- kettle-cookbook-test (source-code/dags/kettle-cookbook.py): calls the kettle-cookbook/pdi/documet-folder.kjb job.
+
+# Kettles (transformations/jobs) provided
+- mariadb_to_file (metadata-injection-example/transformations/mariadb_to_file.ktr): performs a full read of the nations.region_areas table, applies a string modification over the "name" column replacing Europe with EU, and outputs the data into an avro file and a csv file (same data).
+- mariadb_to_mariadb (source-code/ktrs/metadata-injection-example/transformations/mariadb_to_mariadb.ktr): performs a full read of the natios.region_areas table, applies a string modification over the "name" column replacing Europe with EU, and inserts/update the data into the nations_region_areas_modified.
+- mongodb_to_mariadb (source-code/ktrs/metadata-injection-example/transformations/mongodb_to_mariadb.ktr): performs a full read of the cinfodata.cities collection, performing a transformations over the JSON path city.name replacing MA with MASSACHUSSETTS, then inserts/updates the data into nations.cities_modified on MariaDB database.
+- document-folder.kjb (source-code/ktrs/kettle-cookbook/pdi/document-folder.kjb): accepts the input_folder to document ad an output folder where to place the result of the auto-documentation process. It scans given input path searching for Kettle transformations/jobs and process them parsing its details in order to build a web page showing corresponnding ifnormation in a friendly and readable way. 
+
+# How to code a DAG to trigger PDI transformations/jobs
 
 As per [Carte REST API documentaion](https://help.pentaho.com/Documentation/9.1/Developer_center/REST_API_Reference/Carte), executeJob and executeTrans APIs can be used to trigger tasks remotely.
 
@@ -146,15 +182,17 @@ Transformation trigger:
 
 # Datahub
 
-Reference to docker-compose.yaml file: https://raw.githubusercontent.com/datahub-project/datahub/master/docker/quickstart/docker-compose-without-neo4j-m1.quickstart.yml
+- [Reference to docker-compose.yaml file](https://raw.githubusercontent.com/datahub-project/datahub/master/docker/quickstart/docker-compose-without-neo4j-m1.quickstart.yml)
 
-Official docs for docker deployment: https://datahubproject.io/docs/quickstart
+- [Official docs for docker deployment](https://datahubproject.io/docs/quickstart)
 
 
 
 
 # References & Credits
 - [What is Carte Server ?](https://wiki.pentaho.com/display/EAI/Carte+User+Documentation)
+
+- [Kettle Rest API Documentation](https://docs.hitachivantara.com/v/u/en-us/pentaho-data-integration-and-analytics/10.0.x/mk-95pdia010)
 
 - [Configure Carte Server](https://help.pentaho.com/Documentation/8.0/Products/Data_Integration/Carte_Clusters/060)
 
